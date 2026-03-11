@@ -1,0 +1,7 @@
+#for frontend
+Set-Location "c:\Users\wwwal\Downloads\bangladesh-global-newspaper\frontend"
+npm run dev
+
+#For backend
+Set-Location "c:\Users\wwwal\Downloads\bangladesh-global-newspaper\backend"
+& "C:\Users\Public\My projects\venv_news\python.exe" run.py

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+    .container { background: #fff; max-width: 600px; margin: auto; padding: 30px; border-radius: 8px; }
+    .status-approved { color: #16a34a; }
+    .status-rejected { color: #dc2626; }
+    .status-published { color: #2563eb; }
+    .footer { margin-top: 30px; color: #888; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Article Status Update</h2>
+    <p>Your article <strong>"{{ article_title }}"</strong> has been
+      <span class="status-{{ status }}"><strong>{{ status }}</strong></span>.
+    </p>
+    {% if reason %}
+    <p><strong>Note from editor:</strong> {{ reason }}</p>
+    {% endif %}
+    <p>Log in to your dashboard to view the details and take further action.</p>
+    <div class="footer">Bangladesh Global Newspaper — Newsroom Platform</div>
+  </div>
+</body>
+</html>

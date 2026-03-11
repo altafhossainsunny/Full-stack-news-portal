@@ -1,0 +1,53 @@
+services:
+
+  # ── Backend (Flask API) ────────────────────────────────────────────────────
+  - type: web
+    name: bgn-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn wsgi:app --workers 2 --timeout 120
+    plan: free
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: SECRET_KEY
+        generateValue: true          # Render auto-generates a secure value
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: MONGO_URI
+        sync: false                  # Set manually in Render dashboard
+      - key: MAIL_SERVER
+        value: smtp.resend.com
+      - key: MAIL_PORT
+        value: "465"
+      - key: MAIL_USE_TLS
+        value: "False"
+      - key: MAIL_USERNAME
+        value: resend
+      - key: MAIL_PASSWORD
+        sync: false                  # Your Resend API key — set in dashboard
+      - key: MAIL_DEFAULT_SENDER
+        sync: false                  # e.g. news@yourdomain.com
+      - key: FRONTEND_URL
+        sync: false                  # e.g. https://bgn-frontend.onrender.com
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: UPLOAD_FOLDER
+        value: app/static/uploads
+      - key: MAX_CONTENT_LENGTH
+        value: "16777216"
+      - key: USE_GRIDFS
+        value: "true"
+
+  # ── Frontend (React / Vite) ────────────────────────────────────────────────
+  - type: web
+    name: bgn-frontend
+    runtime: node
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    plan: free
+    envVars:
+      - key: VITE_API_BASE_URL
+        sync: false                  # e.g. https://bgn-backend.onrender.com
