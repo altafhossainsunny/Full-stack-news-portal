@@ -43,11 +43,12 @@ services:
   # ── Frontend (React / Vite) ────────────────────────────────────────────────
   - type: web
     name: bgn-frontend
-    runtime: node
+    runtime: docker
     rootDir: frontend
-    buildCommand: npm install && npm run build
-    startCommand: npm start
     plan: free
+    envVars:
+      - key: VITE_API_BASE_URL
+        value: https://full-stack-news-portal.onrender.com
     envVars:
       - key: VITE_API_BASE_URL
         sync: false                  # e.g. https://bgn-backend.onrender.com
