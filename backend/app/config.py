@@ -18,13 +18,14 @@ class Config:
 
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-    FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
+    FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173").strip()
     UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER", "app/static/uploads")
     MAX_CONTENT_LENGTH = int(os.getenv("MAX_CONTENT_LENGTH", 16 * 1024 * 1024))
 
-    _frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173").strip()
     CORS_ORIGINS = list(filter(None, [
-        _frontend_url,
+        os.getenv("FRONTEND_URL", "").strip(),
+        "https://full-stack-news-portal-1.onrender.com",
+        "https://full-stack-news-portal.onrender.com",
         "http://localhost:5173",
         "http://localhost:5174",
         "http://localhost:5175",
