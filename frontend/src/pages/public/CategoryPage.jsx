@@ -34,23 +34,38 @@ export default function CategoryPage() {
       )}
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "1.5rem" }}>
-        {articles.map(article => (
-          <div key={article.id} style={{ border: "1px solid #e5e7eb", borderRadius: 8, overflow: "hidden" }}>
-            {article.featured_image && (
-              <img src={imgUrl(article.featured_image)} alt={article.title}
-                style={{ width: "100%", height: 180, objectFit: "cover" }} />
-            )}
-            <div style={{ padding: "1rem" }}>
-              <Link to={`/articles/${article.slug}`}>
-                <h2 style={{ fontSize: "1rem", marginBottom: "0.5rem" }}>{article.title}</h2>
-              </Link>
-              <p style={{ color: "#6b7280", fontSize: "0.85rem" }}>{truncateText(article.summary, 100)}</p>
-              <p style={{ color: "#9ca3af", fontSize: "0.78rem", marginTop: "0.5rem" }}>
-                {formatDate(article.publish_date)}
-              </p>
+        {articles.map(article => {
+          const imageSrc = imgUrl(article.featured_image);
+          return (
+            <div key={article.id} style={{ border: "1px solid #e5e7eb", borderRadius: 8, overflow: "hidden" }}>
+              {article.featured_image ? (
+                <img
+                  src={imageSrc}
+                  alt={article.title}
+                  style={{ width: "100%", height: 180, objectFit: "cover" }}
+                  onError={e => {
+                    e.target.onerror = null;
+                    e.target.src = "https://via.placeholder.com/280x180?text=No+Image";
+                    console.log("Image failed to load:", imageSrc);
+                  }}
+                />
+              ) : (
+                <div style={{ width: "100%", height: 180, background: "#e5e7eb", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <span style={{ color: "#9ca3af", fontSize: "0.85rem" }}>No image</span>
+                </div>
+              )}
+              <div style={{ padding: "1rem" }}>
+                <Link to={`/articles/${article.slug}`}>
+                  <h2 style={{ fontSize: "1rem", marginBottom: "0.5rem" }}>{article.title}</h2>
+                </Link>
+                <p style={{ color: "#6b7280", fontSize: "0.85rem" }}>{truncateText(article.summary, 100)}</p>
+                <p style={{ color: "#9ca3af", fontSize: "0.78rem", marginTop: "0.5rem" }}>
+                  {formatDate(article.publish_date)}
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       <div style={{ display: "flex", gap: "1rem", marginTop: "2rem" }}>
