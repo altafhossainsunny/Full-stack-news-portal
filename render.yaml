@@ -30,7 +30,7 @@ services:
       - key: MAIL_DEFAULT_SENDER
         sync: false                  # e.g. news@yourdomain.com
       - key: FRONTEND_URL
-        sync: false                  # e.g. https://bgn-frontend.onrender.com
+        value: https://full-stack-news-portal-1.onrender.com
       - key: OPENAI_API_KEY
         sync: false
       - key: UPLOAD_FOLDER
