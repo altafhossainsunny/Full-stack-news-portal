@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { formatDate } from "../../utils/formatDate";
 import { truncateText } from "../../utils/truncateText";
 import { usePagination } from "../../hooks/usePagination";
+import { imgUrl } from "../../utils/imageUrl";
 
 export default function CategoryPage() {
   const { slug } = useParams();
@@ -36,7 +37,7 @@ export default function CategoryPage() {
         {articles.map(article => (
           <div key={article.id} style={{ border: "1px solid #e5e7eb", borderRadius: 8, overflow: "hidden" }}>
             {article.featured_image && (
-              <img src={article.featured_image} alt={article.title}
+              <img src={imgUrl(article.featured_image)} alt={article.title}
                 style={{ width: "100%", height: 180, objectFit: "cover" }} />
             )}
             <div style={{ padding: "1rem" }}>
