@@ -1,6 +1,6 @@
 import api from "./apiClient";
 
-const API = "http://127.0.0.1:5000";
+const API = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:5000";
 
 const authService = {
   login: async (email, password) => {
