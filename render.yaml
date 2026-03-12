@@ -46,8 +46,6 @@ services:
     runtime: docker
     rootDir: frontend
     plan: free
-    dockerBuildArgs:
-      - VITE_API_BASE_URL
     envVars:
       - key: VITE_API_BASE_URL
         value: https://full-stack-news-portal.onrender.com
