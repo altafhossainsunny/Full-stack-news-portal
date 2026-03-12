@@ -13,31 +13,25 @@ def create_app(env: str = None) -> Flask:
     mongo.init_app(app)
     jwt.init_app(app)
     mail.init_app(app)
-    cors.init_app(app, resources={r"/api/*": {"origins": app.config["CORS_ORIGINS"]}}, supports_credentials=True)
+    cors.init_app(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=False)
 
-    # Ensure CORS headers are present on ALL responses (including errors)
+    # Ensure CORS headers are on ALL responses including 500 errors
     @app.after_request
     def add_cors_headers(response):
-        origin = request.headers.get("Origin", "")
-        if origin in app.config["CORS_ORIGINS"]:
-            response.headers["Access-Control-Allow-Origin"] = origin
-            response.headers["Access-Control-Allow-Credentials"] = "true"
-            response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
-            response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+        response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS, PATCH"
         return response
 
     @app.before_request
     def handle_preflight():
         if request.method == "OPTIONS":
             from flask import make_response
-            origin = request.headers.get("Origin", "")
             res = make_response()
-            if origin in app.config["CORS_ORIGINS"]:
-                res.headers["Access-Control-Allow-Origin"] = origin
-                res.headers["Access-Control-Allow-Credentials"] = "true"
-                res.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
-                res.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS, PATCH"
-                res.headers["Access-Control-Max-Age"] = "86400"
+            res.headers["Access-Control-Allow-Origin"] = "*"
+            res.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+            res.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+            res.headers["Access-Control-Max-Age"] = "86400"
             return res, 204
 
     # GridFS for production image storage
