@@ -6,9 +6,16 @@ import { Toaster } from "react-hot-toast";
 import App from "./App";
 import "./styles/global.css";
 
+// Wake up the backend on Render free tier (spins down after inactivity)
+const wakeBackend = () => {
+  const url = (import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:5000") + "/";
+  fetch(url).catch(() => {});
+};
+wakeBackend();
+
 const queryClient = new QueryClient({
   defaultOptions: {
-    queries: { retry: 1, staleTime: 30000 },
+    queries: { retry: 3, staleTime: 30000, retryDelay: 3000 },
   },
 });
 
