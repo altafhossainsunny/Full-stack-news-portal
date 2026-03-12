@@ -22,8 +22,9 @@ class Config:
     UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER", "app/static/uploads")
     MAX_CONTENT_LENGTH = int(os.getenv("MAX_CONTENT_LENGTH", 16 * 1024 * 1024))
 
-    CORS_ORIGINS = [
-        os.getenv("FRONTEND_URL", "http://localhost:5173"),
+    _frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173").strip()
+    CORS_ORIGINS = list(filter(None, [
+        _frontend_url,
         "http://localhost:5173",
         "http://localhost:5174",
         "http://localhost:5175",
@@ -32,7 +33,7 @@ class Config:
         "http://127.0.0.1:5173",
         "http://127.0.0.1:5174",
         "http://127.0.0.1:5175",
-    ]
+    ]))
 
     JWT_ACCESS_TOKEN_EXPIRES = 86400       # 24 hours
     JWT_REFRESH_TOKEN_EXPIRES = 2592000    # 30 days
